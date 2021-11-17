@@ -39,9 +39,8 @@ public:
         return result;
     }
 
-    bool isComputerAboutToWin(Entry computer, int i, int j)
+    bool isComputerAboutToWin(Entry computer)
     {
-        board[i][j] = (char)computer;
 
         // first col
         if (board[0][0] == (char)computer && board[0][1] == (char)computer && board[0][2] == (char)computer)
@@ -94,9 +93,8 @@ public:
         return false;
     }
 
-    bool isPlayerAboutToWin(Entry player, int i, int j)
+    bool isPlayerAboutToWin(Entry player)
     {
-        board[i][j] = (char)player;
         // first col
         if (board[0][0] == (char)player && board[0][1] == (char)player && board[0][2] == (char)player)
         {
@@ -283,19 +281,47 @@ static bool getComputerMove(TicTacToe::Entry computer, TicTacToe::Entry human, T
     for (int i = 0; i < t.getSize(); i++)
     {
         for (int j = 0; j < t.getSize(); j++)
-        {
-            char test = t.board[i][j];
-
-            if (t.isComputerAboutToWin(computer, i, j) == true || t.isPlayerAboutToWin(human, i, j) == true)
+        {          
+            if (t.board[i][j] == t.EMPTY)
             {
-                t.board[i][j] = char(computer);
-                return false;
+                char orig = t.board[i][j];
+
+                t.board[i][j] = (char)computer;
+
+                if (t.isComputerAboutToWin(computer) == true)
+                {
+                    t.board[i][j] = char(computer);
+                    return false;
+                }
+                else
+                {
+                    t.board[i][j] = orig;
+                }
+
             }
+        }
+    }
 
-            else
+    for (int i = 0; i < t.getSize(); i++)
+    {
+        for (int j = 0; j < t.getSize(); j++)
+        {
+            if (t.board[i][j] == t.EMPTY)
             {
-                t.board[i][j] = test;
-                return false;
+                char orig = t.board[i][j];
+
+                t.board[i][j] = (char)human;
+
+                if (t.isPlayerAboutToWin(human) == true)
+                {
+                    t.board[i][j] = char(computer);
+                    return false;
+                }
+                else
+                {
+                    t.board[i][j] = orig;
+                }
+
             }
         }
     }
