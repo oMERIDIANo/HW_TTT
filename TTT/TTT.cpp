@@ -295,6 +295,7 @@ static bool getComputerMove(TicTacToe::Entry computer, TicTacToe::Entry human, T
             else
             {
                 t.board[i][j] = test;
+                return false;
             }
         }
     }
